@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>九鬼出沒! 2025 韓國行 👻</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #fdfbf7;
+            --text-color: #2c3e50;
+            --accent-pink: #ffafcc;
+            --accent-blue: #a2d2ff;
+            --accent-yellow: #fae588;
+            --accent-green: #bcebc9;
+            --border-style: 2px solid #2c3e50;
+            --shadow: 3px 3px 0 #2c3e50;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #f0f0f0;
+            background-image: radial-gradient(#d1d1d1 1px, transparent 1px);
+            background-size: 20px 20px;
+            font-family: 'Noto Sans TC', sans-serif;
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            padding-bottom: 80px;
+        }
+
+        /* 標題區 */
+        header {
+            background: var(--bg-color);
+            padding: 15px;
+            text-align: center;
+            border-bottom: var(--border-style);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-family: 'Gaegu', cursive;
+            font-size: 1.8rem;
+            margin: 0;
+            color: #ff6b6b;
+            text-shadow: 2px 2px 0 #fff;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+            font-family: 'Gaegu', cursive;
+        }
+
+        /* 日期導航 */
+        .nav-scroller {
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 10px 15px;
+            background: var(--bg-color);
+            border-bottom: 1px dashed #ccc;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .nav-scroller::-webkit-scrollbar { display: none; }
+
+        .day-btn {
+            display: inline-block;
+            background: #fff;
+            border: var(--border-style);
+            border-radius: 15px 225px 15px 255px / 225px 15px 255px 15px;
+            padding: 8px 16px;
+            margin-right: 10px;
+            font-family: 'Gaegu', cursive;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+        }
+
+        .day-btn.active {
+            background: var(--accent-yellow);
+            transform: translate(1px, 1px);
+            box-shadow: none;
+        }
+
+        /* 內容區 */
+        .container {
+            padding: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* 天氣小工具 */
+        .weather-card {
+            background: linear-gradient(135deg, var(--accent-blue) 0%, #fff 100%);
+            border: var(--border-style);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow);
+        }
+
+        .weather-info h3 { margin: 0; font-size: 1.2rem; }
+        .weather-info p { margin: 5px 0 0; font-size: 0.9rem; opacity: 0.8; }
+        .weather-icon { font-size: 2.5rem; }
+
+        /* 行程卡片 */
+        .card {
+            background: #fff;
+            border: var(--border-style);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            padding: 15px;
+            position: relative;
+            box-shadow: var(--shadow);
+        }
+
+        .card.transport { border-left: 8px solid var(--accent-blue); }
+        .card.attraction { border-left: 8px solid var(--accent-pink); }
+        .card.food { border-left: 8px solid var(--accent-green); }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .time-badge {
+            background: var(--text-color);
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-family: 'Gaegu', cursive;
+        }
+
+        .nav-btn {
+            background: #03C75A; /* Naver Green */
+            color: #fff;
+            text-decoration: none;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 1px 1px 0 #000;
+            border: 1px solid #000;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        /* 導遊標籤 */
+        .guide-tips {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #ccc;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            color: var(--text-color);
+            border: 1px solid var(--text-color);
+        }
+        
+        .tag.eat { background: var(--accent-yellow); }
+        .tag.buy { background: var(--accent-pink); }
+        .tag.note { background: var(--accent-blue); }
+
+        /* 底部導航 */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--bg-color);
+            border-top: var(--border-style);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 99;
+        }
+
+        .bottom-item {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-color);
+            cursor: pointer;
+        }
+        .bottom-item span { display: block; font-size: 1.2rem; margin-bottom: 2px; }
+
+        /* Ghost Animation */
+        .ghost-icon {
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Helper for Naver Link */
+        .naver-link {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>九鬼出沒! 韓國行 <span class="ghost-icon">👻</span></h1>
+    <div class="subtitle">2025.10.04 - 10.11 (8天7夜)</div>
+    <div class="nav-scroller" id="dayNav">
+        </div>
+</header>
+
+<div class="container" id="contentArea">
+    </div>
+
+<div class="bottom-bar">
+    <div class="bottom-item" onclick="window.open('https://papago.naver.com/', '_blank')">
+        <span>🦜</span>Papago
+    </div>
+    <div class="bottom-item" onclick="window.open('https://map.naver.com', '_blank')">
+        <span>🗺️</span>Naver Map
+    </div>
+    <div class="bottom-item" onclick="alert('緊急聯絡：菀君 (總指揮官)\n駐韓代表處: 051-463-7965')">
+        <span>🆘</span>緊急求救
+    </div>
+</div>
+
+<script>
+    // 行程資料庫 (根據 PDF 內容建立)
+    // naverQ: 韓文名稱，用於 Naver Map 搜尋
+    const itineraryData = [
+        {
+            day: 1,
+            date: "10/04 (六)",
+            location: "釜山 Busan",
+            weather: { temp: "18°C - 23°C", desc: "舒適海風", icon: "🌤️" },
+            events: [
+                { type: "transport", time: "12:00", title: "飛往釜山 (KE2250)", desc: "桃園 T1 -> 金海 PUS (15:30 抵達)", naverQ: "김해국제공항" },
+                { type: "transport", time: "16:30", title: "前往民宿 (Check-in)", desc: "搭計程車前往中央站附近民宿。", naverQ: "부산 중구 동광길 33" },
+                { type: "attraction", time: "18:00", title: "BIFF 廣場 & 南浦洞", desc: "電影節發源地，逛街聖地。", tags: [{type:"eat", text:"必吃:黑糖堅果糖餅"}, {type:"buy", text:"Kakao Friends旗艦店"}], naverQ: "BIFF 광장" },
+                { type: "food", time: "19:30", title: "晚餐：醬蟹", desc: "南浦洞周邊覓食。", tags: [{type:"eat", text:"推薦:元祖首爾蔘雞湯/醬蟹"}], naverQ: "남포동 간장게장" },
+                { type: "attraction", time: "21:00", title: "釜山塔夜景", desc: "欣賞釜山港夜景。", tags: [{type:"photo", text:"龍頭山公園電扶梯"}], naverQ: "부산타워" }
+            ]
+        },
+        {
+            day: 2,
+            date: "10/05 (日)",
+            location: "釜山 Busan",
+            weather: { temp: "17°C - 22°C", desc: "多雲時晴", icon: "⛅" },
+            events: [
+                { type: "attraction", time: "10:00", title: "現代汽車工作室", desc: "特展: Plastic Remaking Our World", tags: [{type:"note", text:"文青打卡點"}], naverQ: "현대모터스튜디오 부산" },
+                { type: "food", time: "12:30", title: "午餐：豬肉湯飯", desc: "水營站周邊。", tags: [{type:"eat", text:"推薦:水營豬肉湯飯"}], naverQ: "수영역 돼지국밥" },
+                { type: "attraction", time: "15:00", title: "廣安里海水浴場", desc: "沙灘漫步，海景咖啡廳。", tags: [{type:"photo", text:"廣安大橋合照"}, {type:"note", text:"可能有週六無人機秀(需確認)"}], naverQ: "광안리해수욕장" },
+                { type: "food", time: "18:30", title: "晚餐：烤活鰻", desc: "釜山特色美食！", tags: [{type:"eat", text:"膽小者慎入(會動)"}], naverQ: "광안리 꼼장어" }
+            ]
+        },
+        {
+            day: 3,
+            date: "10/06 (一)",
+            location: "東釜山 East Busan",
+            weather: { temp: "16°C - 21°C", desc: "適合戶外", icon: "☀️" },
+            events: [
+                { type: "attraction", time: "10:00", title: "Skyline Luge 斜坡滑車", desc: "OSIRIA 園區，享受競速快感。", tags: [{type:"note", text:"用Busan Pass"}], naverQ: "스카이라인루지 부산" },
+                { type: "attraction", time: "13:00", title: "Brick Campus", desc: "樂高積木展。", naverQ: "브릭캠퍼스 부산" },
+                { type: "attraction", time: "15:00", title: "海雲台藍線公園", desc: "搭乘海濱列車 (青沙浦 -> 尾浦)。", tags: [{type:"note", text:"重要:需預約時段"}], naverQ: "해운대블루라인파크 청사포정거장" },
+                { type: "food", time: "17:00", title: "海雲台市場", desc: "品嚐傳統市場小吃。", tags: [{type:"eat", text:"糖餅"}, {type:"eat", text:"辣炒年糕"}], naverQ: "부산해운대시장" },
+                { type: "attraction", time: "19:00", title: "BUSAN X the SKY", desc: "100樓高空觀景台。", naverQ: "부산엑스더스카이" }
+            ]
+        },
+        {
+            day: 4,
+            date: "10/07 (二)",
+            location: "移動日 Transfer",
+            weather: { temp: "15°C - 20°C", desc: "首爾偏涼", icon: "🚄" },
+            events: [
+                { type: "transport", time: "09:00", title: "釜山站 -> 首爾站", desc: "搭乘 KTX 高速列車。", tags: [{type:"note", text:"車程約2.5-3hr"}], naverQ: "부산역" },
+                { type: "transport", time: "13:00", title: "首爾民宿 Check-in", desc: "合井站附近。", naverQ: "서울 마포구 양화로7길 44-5" },
+                { type: "attraction", time: "15:00", title: "弘大商圈", desc: "年輕人的聖地，逛街購物。", tags: [{type:"buy", text:"美妝/衣服"}], naverQ: "홍대입구역" },
+                { type: "food", time: "18:00", title: "晚餐：弘大烤肉", desc: "首爾的第一餐烤肉！", tags: [{type:"eat", text:"荒謬的生肉/小豬存錢筒"}], naverQ: "홍대 고기집" }
+            ]
+        },
+        {
+            day: 5,
+            date: "10/08 (三)",
+            location: "首爾 Seoul",
+            weather: { temp: "12°C - 19°C", desc: "洋蔥式穿搭", icon: "🏯" },
+            events: [
+                { type: "attraction", time: "10:00", title: "宮殿巡禮", desc: "德壽宮 & 韓國歷史博物館。", naverQ: "덕수궁" },
+                { type: "food", time: "12:00", title: "午餐：黃生家刀切麵", desc: "米其林推薦美食。", tags: [{type:"eat", text:"必點:刀切麵/餃子"}], naverQ: "황생가칼국수" },
+                { type: "attraction", time: "14:00", title: "景福宮 (韓服體驗)", desc: "穿韓服進宮免門票！", tags: [{type:"photo", text:"光化門"}, {type:"note", text:"週二休館(今天週三OK)"}], naverQ: "경복궁" },
+                { type: "attraction", time: "18:00", title: "駱山公園", desc: "欣賞城郭夜景。", tags: [{type:"note", text:"韓劇拍攝地"}], naverQ: "낙산공원" },
+                { type: "food", time: "20:00", title: "晚餐：鐘路美食", desc: "布帳馬車一條街。", naverQ: "종로3가 포장마차거리" }
+            ]
+        },
+        {
+            day: 6,
+            date: "10/09 (四)",
+            location: "江南 Gangnam",
+            weather: { temp: "13°C - 20°C", desc: "晴朗", icon: "🛍️" },
+            events: [
+                { type: "attraction", time: "10:00", title: "COEX Mall", desc: "星空圖書館、水族館。", tags: [{type:"photo", text:"星空圖書館巨型書牆"}], naverQ: "별마당도서관" },
+                { type: "attraction", time: "14:00", title: "蠶室 Lotte World Tower", desc: "樂天世界塔 & 石村湖。", tags: [{type:"buy", text:"Lotte Mart掃貨"}], naverQ: "롯데월드타워" },
+                { type: "attraction", time: "17:00", title: "DDP 東大門設計廣場", desc: "充滿未來感的建築。", naverQ: "동대문디자인플라자" },
+                { type: "food", time: "19:00", title: "晚餐：陳玉華奶奶一隻雞", desc: "東大門必吃美食。", tags: [{type:"eat", text:"必加點:年糕/麵條"}], naverQ: "진옥화할매원조닭한마리" }
+            ]
+        },
+        {
+            day: 7,
+            date: "10/10 (五)",
+            location: "首爾 Seoul",
+            weather: { temp: "11°C - 19°C", desc: "微涼", icon: "🧺" },
+            events: [
+                { type: "attraction", time: "10:00", title: "梨花女子大學", desc: "最美校園 & 女人街購物。", naverQ: "이화여자대학교" },
+                { type: "food", time: "12:30", title: "午餐：新村/望遠市場", desc: "望遠市場吃透透。", tags: [{type:"eat", text:"炸雞丁/可樂餅"}], naverQ: "망원시장" },
+                { type: "attraction", time: "15:00", title: "漢江水上巴士", desc: "望遠碼頭 -> 狎鷗亭碼頭。", tags: [{type:"note", text:"體驗漢江風光"}], naverQ: "망원한강공원" },
+                { type: "attraction", time: "17:00", title: "盤浦漢江公園", desc: "野餐 & 月光彩虹噴泉。", tags: [{type:"note", text:"噴泉時間需查詢"}, {type:"eat", text:"外送炸雞/泡麵"}], naverQ: "반포한강공원" }
+            ]
+        },
+        {
+            day: 8,
+            date: "10/11 (六)",
+            location: "返程 Home",
+            weather: { temp: "15°C", desc: "再見韓國", icon: "✈️" },
+            events: [
+                { type: "transport", time: "10:30", title: "前往仁川機場", desc: "合井站搭乘 6002 巴士。", tags: [{type:"note", text:"票價17,000韓元"}], naverQ: "합정역" },
+                { type: "attraction", time: "13:30", title: "機場退稅 & 免稅店", desc: "最後衝刺！", tags: [{type:"note", text:"T2航廈退稅櫃台"}], naverQ: "인천국제공항 제2여객터미널" },
+                { type: "transport", time: "16:10", title: "飛往台北 (KE187)", desc: "ICN T2 -> TPE (17:50 抵達)", naverQ: "인천국제공항" }
+            ]
+        }
+    ];
+
+    const dayNav = document.getElementById('dayNav');
+    const contentArea = document.getElementById('contentArea');
+
+    // 初始化頁面
+    function init() {
+        renderNav();
+        renderDay(0); // 預設顯示第一天
+    }
+
+    // 渲染日期按鈕
+    function renderNav() {
+        itineraryData.forEach((item, index) => {
+            const btn = document.createElement('div');
+            btn.className = `day-btn ${index === 0 ? 'active' : ''}`;
+            btn.textContent = `Day ${item.day}`;
+            btn.onclick = () => {
+                document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderDay(index);
+            };
+            dayNav.appendChild(btn);
+        });
+    }
+
+    // 渲染該日行程
+    function renderDay(index) {
+        const data = itineraryData[index];
+        contentArea.innerHTML = '';
+
+        // 1. 天氣卡片
+        const weatherHtml = `
+            <div class="weather-card">
+                <div class="weather-info">
+                    <h3>${data.location} | ${data.date}</h3>
+                    <p>${data.weather.desc} • 氣溫 ${data.weather.temp}</p>
+                </div>
+                <div class="weather-icon">${data.weather.icon}</div>
+            </div>
+        `;
+        contentArea.insertAdjacentHTML('beforeend', weatherHtml);
+
+        // 2. 行程列表
+        data.events.forEach(event => {
+            let tagsHtml = '';
+            if (event.tags) {
+                tagsHtml = `<div class="guide-tips">` + 
+                    event.tags.map(tag => `<span class="tag ${tag.type}">${tag.text}</span>`).join('') +
+                    `</div>`;
+            }
+
+            const naverUrl = `https://map.naver.com/v5/search/${encodeURIComponent(event.naverQ)}`;
+
+            const cardHtml = `
+                <div class="card ${event.type}">
+                    <div class="card-header">
+                        <span class="time-badge">${event.time}</span>
+                        <a href="${naverUrl}" target="_blank" class="nav-btn">
+                            📍GO 導航
+                        </a>
+                    </div>
+                    <div class="card-title">
+                        ${getIcon(event.type)} ${event.title}
+                    </div>
+                    <div class="card-desc">${event.desc}</div>
+                    ${tagsHtml}
+                </div>
+            `;
+            contentArea.insertAdjacentHTML('beforeend', cardHtml);
+        });
+    }
+
+    function getIcon(type) {
+        switch(type) {
+            case 'transport': return '🚌';
+            case 'attraction': return '📸';
+            case 'food': return '🍴';
+            default: return '🚩';
+        }
+    }
+
+    init();
+</script>
+
+</body>
+</html>
